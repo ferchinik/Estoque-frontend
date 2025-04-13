@@ -1,0 +1,117 @@
+<div class="container my-4">
+  <div class="card shadow">
+    @if (!modoModal) {
+    <div class="card-header bg-primary text-white">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0"><i class="fas fa-tags"></i> Cadastro de Categorias</h3>
+        <button class="btn btn-success btn-sm" (click)="new()">
+          <i class="fas fa-plus"></i> Nova Categoria
+        </button>
+      </div>
+    </div>
+    }
+    <div class="card-body">
+      @if (!modoModal) {
+      <div class="card mb-3">
+        <div class="card-body bg-light">
+          <!-- Linha de pesquisa e botões Pesquisar e Limpar -->
+          <div class="row g-3 align-items-end">
+            <div class="col-md-8">
+              <label for="filtroCategoria" class="form-label">Pesquisar por nome</label>
+              <input type="text" id="filtroCategoria" class="form-control form-control-sm"
+                placeholder="Pesquisar por nome..." [(ngModel)]="termoPesquisa" (keyup.enter)="pesquisar()" />
+            </div>
+            <div class="col-md-4 d-flex align-items-end justify-content-end">
+              <button class="btn btn-outline-secondary btn-sm me-2" type="button" (click)="pesquisar()"
+                title="Pesquisar">
+                <i class="fas fa-search"></i> Pesquisar
+              </button>
+              <button class="btn btn-outline-secondary btn-sm" type="button" (click)="limparPesquisa()"
+                title="Limpar Pesquisa">
+                <i class="fas fa-times"></i> Limpar
+              </button>
+            </div>
+          </div>
+          <!-- Linha do filtro: Ordenar A-Z -->
+          <div class="row mt-3">
+            <div class="col-12 d-flex justify-content-end">
+              <button class="btn btn-outline-dark btn-sm" type="button" (click)="ordenarAZ()" title="Ordenar A-Z">
+                <i class="fas fa-sort-alpha-down"></i> Ordenar A-Z
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      } @else {
+      <!-- Versão para modo modal -->
+      <div class="mb-3">
+        <div class="input-group">
+          <input type="text" class="form-control form-control-sm" placeholder="Pesquisar por nome..."
+            [(ngModel)]="termoPesquisa" (keyup.enter)="pesquisar()" />
+          <button class="btn btn-outline-secondary btn-sm" type="button" (click)="pesquisar()" title="Pesquisar">
+            <i class="fas fa-search"></i> Pesquisar
+          </button>
+          <button class="btn btn-outline-secondary btn-sm ms-2" type="button" (click)="limparPesquisa()"
+            title="Limpar Pesquisa">
+            <i class="fas fa-times"></i> Limpar
+          </button>
+          <button class="btn btn-outline-secondary btn-sm ms-2" type="button" (click)="ordenarAZ()" title="Ordenar A-Z">
+            <i class="fas fa-sort-alpha-down"></i> Ordenar A-Z
+          </button>
+        </div>
+      </div>
+      }
+
+      <div class="table-responsive">
+        <table class="table table-hover table-sm">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col" class="text-center">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (categoria of lista; track categoria.id; let i = $index) {
+            <tr>
+              <td>{{ categoria.id }}</td>
+              <td>{{ categoria.nome }}</td>
+              <td class="d-flex justify-content-center">
+                @if (!modoModal) {
+                <button class="btn btn-primary btn-sm me-2" (click)="edit(categoria)" title="Editar">
+                  <i class="fas fa-pencil-alt"></i> Editar
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="delete(categoria)" title="Excluir">
+                  <i class="fas fa-trash-alt"></i> Excluir
+                </button>
+                }
+                @if (modoModal) {
+                <button class="btn btn-success btn-sm" (click)="selecionar(categoria)" title="Selecionar">
+                  <i class="fas fa-check"></i> Selecionar
+                </button>
+                }
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="3" class="text-center fst-italic">Nenhuma categoria encontrada.</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (!modoModal) {
+<ng-template #modalCategoriaForm>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ categoriaEdit.id > 0 ? 'Editar Categoria' : 'Nova Categoria' }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+  </div>
+  <div class="modal-body">
+    <app-categorias-form [categoriaEdit]="categoriaEdit" (retorno)="retornoForm($event)"></app-categorias-form>
+  </div>
+</ng-template>
+}

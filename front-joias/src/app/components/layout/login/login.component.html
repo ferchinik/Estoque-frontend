@@ -1,0 +1,31 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <div class="text-center mb-4">
+            <img src="/logo-joia.png" alt="Logo Joalheria" class="img-fluid mb-3" style="max-height: 100px;">
+            <h3 class="card-title">Sistema de Estoque - Joias</h3>
+          </div>
+          <form #loginForm="ngForm" (ngSubmit)="logar()">
+            <mdb-form-control class="mb-4">
+              <input mdbInput type="text" id="username" class="form-control" name="username"
+                [(ngModel)]="login.username" required />
+              <label mdbLabel class="form-label" for="username">Usuário</label>
+            </mdb-form-control>
+
+            <mdb-form-control class="mb-4">
+              <input mdbInput type="password" id="password" class="form-control" name="password"
+                [(ngModel)]="login.password" required (keyup.enter)="logar()" />
+              <label mdbLabel class="form-label" for="password">Senha</label>
+            </mdb-form-control>
+
+            <button mdbRipple type="submit" class="btn btn-primary btn-block mb-4" [disabled]="!loginForm.valid">
+              Entrar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,127 @@
+<div class="container my-4">
+  <div class="card shadow">
+    @if (!modoModal) {
+    <div class="card-header bg-primary text-white">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0"><i class="fas fa-users"></i> Cadastro de Clientes</h3>
+        <button class="btn btn-success btn-sm" (click)="new()">
+          <i class="fas fa-plus"></i> Novo Cliente
+        </button>
+      </div>
+    </div>
+    }
+    <div class="card-body">
+      @if (!modoModal) {
+      <div class="card mb-3">
+        <div class="card-body bg-light">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="filtroNome" class="form-label">Nome</label>
+              <input type="text" id="filtroNome" class="form-control form-control-sm" placeholder="Digite o nome..."
+                [(ngModel)]="termoPesquisaNome" (keyup.enter)="pesquisarPorNome()" />
+            </div>
+            <div class="col-md-4">
+              <label for="filtroEmail" class="form-label">Email</label>
+              <input type="email" id="filtroEmail" class="form-control form-control-sm" placeholder="Digite o email..."
+                [(ngModel)]="termoPesquisaEmail" email #filtroEmailInput="ngModel"
+                (keyup.enter)="pesquisarPorEmail()" />
+              @if (termoPesquisaEmail && filtroEmailInput.invalid && filtroEmailInput.touched) {
+              <div class="text-danger small mt-1">Email inválido.</div>
+              }
+            </div>
+            <div class="col-md-4 d-flex align-items-end justify-content-end">
+              <button class="btn btn-outline-secondary btn-sm me-2" (click)="aplicarPesquisa()"
+                [disabled]="(termoPesquisaEmail && filtroEmailInput.invalid)">
+                <i class="fas fa-search me-1"></i> Pesquisar
+              </button>
+              <button class="btn btn-outline-secondary btn-sm" (click)="limparPesquisa()">
+                <i class="fas fa-times me-1"></i> Limpar
+              </button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end gap-2 mt-3">
+            <button class="btn btn-outline-info btn-sm" (click)="filtrarComPedidos()">
+              <i class="fas fa-shopping-cart me-1"></i> Com Pedidos
+            </button>
+            <button class="btn btn-outline-warning btn-sm" (click)="filtrarSemPedidos()">
+              <i class="fas fa-user-slash me-1"></i> Sem Pedidos
+            </button>
+            <button class="btn btn-outline-dark btn-sm" (click)="ordenarPorNomeDesc()">
+              <i class="fas fa-sort-alpha-up me-1"></i> Ordenar Z-A
+            </button>
+          </div>
+        </div>
+      </div>
+      } @else {
+      <div class="row mb-3">
+        <div class="col-12">
+          <div class="input-group">
+            <input type="text" class="form-control form-control-sm" placeholder="Pesquisar cliente por nome..."
+              [(ngModel)]="termoPesquisaNome" (keyup.enter)="pesquisarPorNome()" aria-label="Pesquisar por nome" />
+            <button class="btn btn-outline-secondary btn-sm" type="button" (click)="pesquisarPorNome()"
+              title="Pesquisar">
+              <i class="fas fa-search"></i> Pesquisar
+            </button>
+            <button class="btn btn-outline-secondary btn-sm ms-1" type="button" (click)="limparPesquisa()"
+              title="Limpar Pesquisa">
+              <i class="fas fa-times"></i> Limpar
+            </button>
+          </div>
+        </div>
+      </div>
+      }
+      <div class="table-responsive">
+        <table class="table table-hover table-sm">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Email</th>
+              <th scope="col" class="text-center">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (cliente of lista; track cliente.id; let i = $index) {
+            <tr>
+              <td>{{ cliente.id }}</td>
+              <td>{{ cliente.nome }}</td>
+              <td>{{ cliente.email }}</td>
+              <td class="d-flex justify-content-center">
+                @if (!modoModal) {
+                <button class="btn btn-primary btn-sm me-2" (click)="edit(cliente)" title="Editar">
+                  <i class="fas fa-pencil-alt"></i> Editar
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="delete(cliente)" title="Excluir">
+                  <i class="fas fa-trash-alt"></i> Excluir
+                </button>
+                }
+                @if (modoModal) {
+                <button class="btn btn-success btn-sm" (click)="selecionar(cliente)" title="Selecionar">
+                  <i class="fas fa-check"></i> Selecionar
+                </button>
+                }
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="4" class="text-center fst-italic">Nenhum cliente encontrado.</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (!modoModal) {
+<ng-template #modalClienteForm>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ clienteEdit.id > 0 ? 'Editar Cliente' : 'Novo Cliente' }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+  </div>
+  <div class="modal-body">
+    <app-clientes-form [clienteEdit]="clienteEdit" (retorno)="retornoForm($event)"></app-clientes-form>
+  </div>
+</ng-template>
+}

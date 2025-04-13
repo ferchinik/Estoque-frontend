@@ -1,0 +1,125 @@
+<div class="container my-4">
+  <div class="card shadow">
+    @if (!modoModal) {
+    <div class="card-header bg-primary text-white">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0"><i class="fas fa-truck"></i> Cadastro de Fornecedores</h3>
+        <button class="btn btn-success btn-sm" (click)="new()">
+          <i class="fas fa-plus"></i> Novo Fornecedor
+        </button>
+      </div>
+    </div>
+    }
+    <div class="card-body">
+      @if (!modoModal) {
+      <div class="card mb-3">
+        <div class="card-body bg-light">
+          <!-- Primeira linha: Nome + Email + Botões Pesquisar/Limpar -->
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label for="filtroNomeFornecedor" class="form-label">Nome</label>
+              <input type="text" id="filtroNomeFornecedor" class="form-control form-control-sm"
+                placeholder="Digite o nome..." [(ngModel)]="termoPesquisa" (keyup.enter)="pesquisar()" />
+            </div>
+            <div class="col-md-4 d-flex align-items-end justify-content-end">
+              <div>
+                <button class="btn btn-outline-secondary btn-sm me-2" (click)="pesquisar()" title="Pesquisar">
+                  <i class="fas fa-search me-1"></i> Pesquisar
+                </button>
+                <button class="btn btn-outline-secondary btn-sm" (click)="limparPesquisaEFiltros()" title="Limpar">
+                  <i class="fas fa-times me-1"></i> Limpar
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Segunda linha: Botões de filtro (COM JOIAS, SEM JOIAS, ORDENAR A-Z) -->
+          <div class="d-flex justify-content-end gap-2 mt-3">
+            <button type="button" class="btn btn-outline-info btn-sm" (click)="filtrarComJoias()"
+              title="Mostrar apenas fornecedores com joias">
+              <i class="fas fa-link me-1"></i> Com Joias
+            </button>
+            <button type="button" class="btn btn-outline-warning btn-sm" (click)="filtrarSemJoias()"
+              title="Mostrar apenas fornecedores sem joias">
+              <i class="fas fa-unlink me-1"></i> Sem Joias
+            </button>
+            <button type="button" class="btn btn-outline-dark btn-sm" (click)="ordenarAZ()"
+              title="Ordenar por nome (A-Z)">
+              <i class="fas fa-sort-alpha-down me-1"></i> Ordenar A-Z
+            </button>
+          </div>
+        </div>
+      </div>
+      } @else {
+      <!-- Caso esteja em modo modal -->
+      <div class="row mb-3">
+        <div class="col-12">
+          <div class="input-group input-group-sm">
+            <input type="text" class="form-control" placeholder="Pesquisar fornecedor por nome..."
+              [(ngModel)]="termoPesquisa" (keyup.enter)="pesquisar()" />
+            <button class="btn btn-outline-secondary btn-sm" type="button" (click)="pesquisar()" title="Pesquisar">
+              <i class="fas fa-search"></i> Pesquisar
+            </button>
+            <button class="btn btn-outline-secondary btn-sm ms-2" type="button" (click)="limparPesquisaEFiltros()"
+              title="Limpar Pesquisa">
+              <i class="fas fa-times"></i> Limpar
+            </button>
+          </div>
+        </div>
+      </div>
+      }
+
+      <div class="table-responsive">
+        <table class="table table-hover table-sm">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col" class="text-center">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (fornecedor of lista; track fornecedor.id; let i = $index) {
+            <tr>
+              <td>{{ fornecedor.id }}</td>
+              <td>{{ fornecedor.nome }}</td>
+              <td class="text-center">
+                @if (!modoModal) {
+                <button class="btn btn-primary btn-sm me-2" (click)="edit(fornecedor)" title="Editar">
+                  <i class="fas fa-pencil-alt"></i> Editar
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="delete(fornecedor)" title="Excluir">
+                  <i class="fas fa-trash-alt"></i> Excluir
+                </button>
+                }
+                @if (modoModal) {
+                <button class="btn btn-success btn-sm" (click)="selecionar(fornecedor)" title="Selecionar">
+                  <i class="fas fa-check"></i> Selecionar
+                </button>
+                }
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="3" class="text-center fst-italic">Nenhum fornecedor encontrado.</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (!modoModal) {
+<ng-template #modalFornecedorForm>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      {{ fornecedorEdit.id > 0 ? 'Editar Fornecedor' : 'Novo Fornecedor' }}
+    </h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+  </div>
+  <div class="modal-body">
+    <app-fornecedores-form [fornecedorEdit]="fornecedorEdit" (retorno)="retornoForm($event)"></app-fornecedores-form>
+  </div>
+</ng-template>
+}

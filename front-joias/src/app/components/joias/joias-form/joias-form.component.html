@@ -1,0 +1,82 @@
+<form #form="ngForm" (ngSubmit)="save()">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <mdb-form-control>
+        <input mdbInput type="text" id="nomeJoia" name="nomeJoia" class="form-control" [(ngModel)]="joiaEdit.nome"
+          required #nome="ngModel" />
+        <label mdbLabel class="form-label" for="nomeJoia">Nome da Joia</label>
+      </mdb-form-control>
+      @if (nome.invalid && (nome.dirty || nome.touched)) {
+      <div class="text-danger mt-1 small">Nome é obrigatório.</div>
+      }
+    </div>
+    <div class="col-md-6">
+      <mdb-form-control>
+        <input mdbInput type="number" id="precoJoia" name="precoJoia" class="form-control" [(ngModel)]="joiaEdit.preco"
+          required min="0" #preco="ngModel" />
+        <label mdbLabel class="form-label" for="precoJoia">Preço</label>
+      </mdb-form-control>
+      @if (preco.invalid && (preco.dirty || preco.touched)) {
+      <div class="text-danger mt-1 small">
+        @if (preco.errors?.['required']) { <div>Preço é obrigatório.</div> }
+        @if (preco.errors?.['min']) { <div>Preço não pode ser negativo.</div> }
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Categoria:</label>
+    <div class="input-group">
+      <input type="text" class="form-control" readonly aria-label="Categoria Selecionada"
+        [value]="joiaEdit.categoria.nome ? joiaEdit.categoria.nome : 'Nenhuma selecionada'" />
+      <button class="btn btn-outline-secondary" type="button" (click)="buscarCategoria()">
+        <i class="fas fa-search"></i> Buscar
+      </button>
+    </div>
+    @if (!joiaEdit.categoria.id && form.submitted) {
+    <div class="text-danger mt-1 small">Categoria é obrigatória.</div>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Fornecedor:</label>
+    <div class="input-group">
+      <input type="text" class="form-control" readonly aria-label="Fornecedor Selecionado"
+        [value]="joiaEdit.fornecedor.nome ? joiaEdit.fornecedor.nome : 'Nenhum selecionado'" />
+      <button class="btn btn-outline-secondary" type="button" (click)="buscarFornecedor()">
+        <i class="fas fa-search"></i> Buscar
+      </button>
+    </div>
+    @if (!joiaEdit.fornecedor.id && form.submitted) {
+    <div class="text-danger mt-1 small">Fornecedor é obrigatório.</div>
+    }
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-success"
+      [disabled]="!form.valid || !joiaEdit.categoria.id || !joiaEdit.fornecedor.id">
+      <i class="fas fa-save me-1"></i> Salvar Joia
+    </button>
+  </div>
+</form>
+
+<ng-template #modalCategoriasList>
+  <div class="modal-header">
+    <h5 class="modal-title">Selecionar Categoria</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalCategoriaRef.close()"></button>
+  </div>
+  <div class="modal-body">
+    <app-categorias-list [modoModal]="true" (meuEvento)="onCategoriaSelecionada($event)"></app-categorias-list>
+  </div>
+</ng-template>
+
+<ng-template #modalFornecedoresList>
+  <div class="modal-header">
+    <h5 class="modal-title">Selecionar Fornecedor</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalFornecedorRef.close()"></button>
+  </div>
+  <div class="modal-body">
+    <app-fornecedores-list [modoModal]="true" (meuEvento)="onFornecedorSelecionado($event)"></app-fornecedores-list>
+  </div>
+</ng-template>

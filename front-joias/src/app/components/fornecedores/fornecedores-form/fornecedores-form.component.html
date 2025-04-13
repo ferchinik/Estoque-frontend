@@ -1,0 +1,24 @@
+<form #form="ngForm" (ngSubmit)="save()">
+  <div class="mb-4"> <!-- Campo Nome -->
+    <mdb-form-control>
+      <input mdbInput type="text" id="nomeFornecedor" name="nomeFornecedor" class="form-control"
+        [(ngModel)]="fornecedorEdit.nome" required #nome="ngModel" />
+      <label mdbLabel class="form-label" for="nomeFornecedor">Nome do Fornecedor</label>
+    </mdb-form-control>
+    <!-- Mensagem de erro para nome -->
+    @if (nome.invalid && (nome.dirty || nome.touched)) {
+    <div class="text-danger mt-1" style="font-size: 0.8rem;">
+      @if (nome.errors?.['required']) {
+      <div> Nome é obrigatório. </div>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- Botão Salvar -->
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-success" [disabled]="!form.valid">
+      <i class="fas fa-save me-1"></i> Salvar Fornecedor
+    </button>
+  </div>
+</form>

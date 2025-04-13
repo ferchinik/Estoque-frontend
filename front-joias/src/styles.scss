@@ -1,0 +1,68 @@
+@use 'sass:color';
+
+$my-gold: #B08D57;
+$my-graphite: #343a40;
+$my-soft-black: #212529;
+$my-cream: #F5F5DC;
+$my-light-bg: #f8f9fa;
+$my-burgundy: #c9ba94;
+
+@use 'mdb-angular-ui-kit/assets/scss/mdb' as mdb with (
+  $primary: $my-gold,
+  $secondary: $my-graphite,
+  $dark: $my-soft-black,
+  $light: $my-light-bg,
+  $success: $my-burgundy
+);
+
+body {
+  background-color: mdb.$light;
+  color: mdb.$secondary;
+}
+
+.card-header.bg-primary {
+  color: $my-cream !important;
+  .fas {
+    color: $my-cream !important;
+  }
+}
+
+.navbar.bg-dark {
+  .navbar-nav .nav-link {
+    color: rgba($my-cream, 0.75);
+    &:hover, &.active {
+      color: $my-cream;
+    }
+  }
+  .navbar-brand {
+     color: $my-cream;
+  }
+}
+
+.table {
+  td,
+  th {
+    border-top: none !important;
+    border-bottom: none !important;
+  }
+
+  thead th {
+     border-top: none !important;
+     border-bottom: 2px solid darken(mdb.$light, 10%);
+  }
+
+  &.table-bordered {
+    td, th {
+      border-left: none !important;
+      border-right: none !important;
+    }
+    border: none !important;
+  }
+}
+
+.swal2-container {
+  z-index: 1060 !important;
+}
+.swal2-backdrop {
+  z-index: 1055 !important;
+}

@@ -1,0 +1,45 @@
+<form #form="ngForm" (ngSubmit)="save()">
+  <div class="mb-4"> <!-- Adiciona mais espaço abaixo */} -->
+    <!-- Campo Nome -->
+    <mdb-form-control>
+      <input mdbInput type="text" id="nomeCliente" name="nomeCliente" class="form-control"
+        [(ngModel)]="clienteEdit.nome" required #nome="ngModel" />
+      <label mdbLabel class="form-label" for="nomeCliente">Nome do Cliente</label>
+    </mdb-form-control>
+    <!-- Mensagem de erro para nome -->
+    @if (nome.invalid && (nome.dirty || nome.touched)) {
+    <div class="text-danger mt-1" style="font-size: 0.8rem;">
+      @if (nome.errors?.['required']) {
+      <div> Nome é obrigatório. </div>
+      }
+    </div>
+    }
+  </div>
+
+  <div class="mb-4"> <!-- Adiciona mais espaço abaixo -->
+    <!-- Campo Email -->
+    <mdb-form-control>
+      <input mdbInput type="email" id="emailCliente" name="emailCliente" class="form-control"
+        [(ngModel)]="clienteEdit.email" required email #email="ngModel" /> <!-- Adiciona validação 'email' -->
+      <label mdbLabel class="form-label" for="emailCliente">Email do Cliente</label>
+    </mdb-form-control>
+    <!-- Mensagens de erro para email -->
+    @if (email.invalid && (email.dirty || email.touched)) {
+    <div class="text-danger mt-1" style="font-size: 0.8rem;">
+      @if (email.errors?.['required']) {
+      <div> Email é obrigatório. </div>
+      }
+      @if (email.errors?.['email']) {
+      <div> Formato de email inválido. </div>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- Botão Salvar -->
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-success" [disabled]="!form.valid">
+      <i class="fas fa-save me-1"></i> Salvar Cliente
+    </button>
+  </div>
+</form>
