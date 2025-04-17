@@ -1,0 +1,61 @@
+:host {
+  display: block;
+
+  // Botões principais (rosa escuro)
+  .btn-primary,
+  [type="submit"],
+  .EDITAR,
+  .NOVO,
+  .PESQUISAR,
+  .ORDENAR,
+  [class*="NOVA"],
+  [class*="NOVO"],
+  .COM,
+  .SEM {
+    background-color: #ff69b4 !important;
+    border-color: #ff69b4 !important;
+    color: white !important;
+    
+    &:hover:not([disabled]) {
+      background-color: #ff4da6 !important;
+      border-color: #ff4da6 !important;
+    }
+    
+    &:disabled {
+      background-color: #ffb6d9 !important;
+      border-color: #ffb6d9 !important;
+    }
+  }
+
+  // Botões secundários (rosa claro)
+  .btn-secondary,
+  .LIMPAR,
+  .EXCLUIR,
+  .btn-danger {
+    background-color: #ff99c8 !important;
+    border-color: #ff99c8 !important;
+    color: white !important;
+    
+    &:hover:not([disabled]) {
+      background-color: #ff80bc !important;
+      border-color: #ff80bc !important;
+    }
+  }
+
+  // Garante que todos os botões sejam rosa
+  .btn,
+  button {
+    &:not(.btn-link) {
+      &:not(.EXCLUIR):not(.LIMPAR) {
+        background-color: #ff69b4 !important;
+        border-color: #ff69b4 !important;
+        color: white !important;
+        
+        &:hover:not([disabled]) {
+          background-color: #ff4da6 !important;
+          border-color: #ff4da6 !important;
+        }
+      }
+    }
+  }
+}

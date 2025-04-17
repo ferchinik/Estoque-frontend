@@ -1,0 +1,115 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #ffebf2;
+  background-image: url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23ff69b4' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' opacity='0.2'/%3E%3C/svg%3E");
+
+  .content {
+    padding: 2rem;
+    
+    .card {
+      background-color: white;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      
+      .card-header {
+        background-color: #ff69b4;
+        color: white;
+        border-radius: 15px 15px 0 0;
+        border: none;
+      }
+      
+      .card-body {
+        padding: 2rem;
+      }
+    }
+
+    // Botões principais (rosa escuro)
+    .btn-primary,
+    [type="submit"],
+    .EDITAR,
+    .NOVO,
+    .PESQUISAR,
+    .ORDENAR,
+    [class*="NOVA"],
+    [class*="NOVO"],
+    .COM,
+    .SEM {
+      background-color: #ff69b4 !important;
+      border-color: #ff69b4 !important;
+      color: white !important;
+      
+      &:hover:not([disabled]) {
+        background-color: #ff4da6 !important;
+        border-color: #ff4da6 !important;
+      }
+      
+      &:disabled {
+        background-color: #ffb6d9 !important;
+        border-color: #ffb6d9 !important;
+      }
+    }
+
+    // Botões secundários (rosa claro)
+    .btn-secondary,
+    .LIMPAR,
+    .EXCLUIR,
+    .btn-danger {
+      background-color: #ff99c8 !important;
+      border-color: #ff99c8 !important;
+      color: white !important;
+      
+      &:hover:not([disabled]) {
+        background-color: #ff80bc !important;
+        border-color: #ff80bc !important;
+      }
+    }
+    
+    // Garante que todos os botões sejam rosa
+    .btn,
+    button {
+      &:not(.btn-link) {
+        &:not(.EXCLUIR):not(.LIMPAR) {
+          background-color: #ff69b4 !important;
+          border-color: #ff69b4 !important;
+          color: white !important;
+          
+          &:hover:not([disabled]) {
+            background-color: #ff4da6 !important;
+            border-color: #ff4da6 !important;
+          }
+        }
+      }
+    }
+    
+    .form-control {
+      border: 2px solid #ffebf2;
+      
+      &:focus {
+        border-color: #ff69b4;
+        box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25);
+      }
+    }
+    
+    table {
+      background-color: white;
+      border-radius: 15px;
+      overflow: hidden;
+      
+      th {
+        background-color: #ff69b4;
+        color: white;
+        border: none;
+      }
+      
+      td {
+        vertical-align: middle;
+      }
+      
+      tbody tr:hover {
+        background-color: #ffebf2;
+      }
+    }
+  }
+}
